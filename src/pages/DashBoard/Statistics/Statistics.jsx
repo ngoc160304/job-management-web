@@ -1,28 +1,33 @@
-import Applications from './Applications/Applications';
-import Complains from './Complains/Complains';
-import JobRecruitings from './JobRecruitings/JobRecruitings';
-import Users from './Users/User';
-import styles from '../DashBoard.module.css';
-import { useEffect, useState } from 'react';
-import { statisticsAPI } from '../../../apis';
-
-const Statistics = () => {
-  const [statistics, setStatistics] = useState(null);
-  useEffect(() => {
-    statisticsAPI().then((statistics) => {
-      setStatistics(statistics);
-    });
-  }, []);
+import StatisticItem from '../../../components/StatisticItem/StatisticItem';
+import styles from '../../../styles/DashBoard.module.css';
+const Statistics = ({ statistics }) => {
   return (
     <div className={styles.stats_grid}>
-      {statistics && (
-        <>
-          <Users users={statistics?.users} />
-          <JobRecruitings jobs={statistics?.jobs} />
-          <Applications candidates={statistics?.candidates} />
-          <Complains complains={statistics?.complains} />
-        </>
-      )}
+      <StatisticItem
+        icon={'fas fa-users'}
+        quantity={statistics.users - 1}
+        title={'Tổng người dùng'}
+        colorIcon={styles.stat_users}
+      />
+      <StatisticItem
+        icon={'fas fa-briefcase'}
+        quantity={statistics.jobs}
+        title={'Việc làm đang tuyển'}
+        colorIcon={styles.stat_jobs}
+      />
+      <StatisticItem
+        icon={'fas fa-file-alt'}
+        quantity={statistics.candidates}
+        title={'Đơn ứng tuyển'}
+        colorIcon={styles.stat_applications}
+      />
+
+      <StatisticItem
+        icon={'fas fa-exclamation-circle'}
+        quantity={statistics.complains}
+        title={'Khiếu nại chờ xử lý'}
+        colorIcon={styles.stat_reports}
+      />
     </div>
   );
 };

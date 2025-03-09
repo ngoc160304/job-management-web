@@ -34,8 +34,12 @@ const Profile = ({ user }) => {
     navigate('/');
     toast.success('Logout success !');
   };
-  const handleToDashBoard = () => {
-    navigate('/admin/dash-board');
+  const handleToDashBoard = (user) => {
+    if (user.role == ROLE_USER.ADMIN) {
+      navigate('/admin/dash-board');
+    } else {
+      navigate('/employer/dash-board');
+    }
   };
   return (
     <>
@@ -110,9 +114,11 @@ const Profile = ({ user }) => {
           </ListItemIcon>
           Settings
         </MenuItem>
-        {user.role === ROLE_USER.ADMIN && (
+        {(user.role === ROLE_USER.ADMIN || user.role === ROLE_USER.EMPLOYER) && (
           <MenuItem
-            onClick={handleToDashBoard}
+            onClick={() => {
+              handleToDashBoard(user);
+            }}
             sx={{
               '&:hover': {
                 color: 'success.light',

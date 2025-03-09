@@ -25,3 +25,4 @@ export const STATUS = {
   REJECT: 'reject',
   ACCEPT: 'accept'
 };
+export const JOB_LOCATION = ['Ha Noi', 'Da Nang', 'Ho Chi Minh'];

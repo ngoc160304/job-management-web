@@ -4,10 +4,14 @@ import Button from '@mui/material/Button';
 import Avatar from '@mui/material/Avatar';
 import LockIcon from '@mui/icons-material/Lock';
 import Typography from '@mui/material/Typography';
-import { Card as MuiCard } from '@mui/material';
+import Container from '@mui/material/Container';
+import Checkbox from '@mui/material/Checkbox';
+import Select from '@mui/material/Select';
+import FormControl from '@mui/material/FormControl';
+import ListItemText from '@mui/material/ListItemText';
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
 import TrelloIcon from '../../assets/trello-icon.svg?react';
-
-import CardActions from '@mui/material/CardActions';
 import TextField from '@mui/material/TextField';
 import Zoom from '@mui/material/Zoom';
 import {
@@ -18,75 +22,93 @@ import {
   PASSWORD_RULE_MESSAGE,
   PASSWORD_CONFIRMATION_MESSAGE
 } from '../../utils/validators';
-import { useForm } from 'react-hook-form';
+import { Controller, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import FieldErrorAlert from '../../components/Form/FieldErrorAlert';
 import { registerUserAPI } from '../../apis';
 import { toast } from 'react-toastify';
 
-import { ROLE_USER } from '../../utils/constants';
-
+import { ROLE_USER, SKILLS } from '../../utils/constants';
+import { useState } from 'react';
+const ITEM_HEIGHT = 48;
+const ITEM_PADDING_TOP = 8;
+const MenuProps = {
+  PaperProps: {
+    style: {
+      maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
+      width: 250
+    }
+  }
+};
 function RegisterForm() {
   const navigate = useNavigate();
   const {
     register,
     handleSubmit,
     formState: { errors },
-    watch
+    watch,
+    control
   } = useForm({
     defaultValues: {
       skills: []
     }
   });
+  const [skills, setSkills] = useState([]);
+  const handleChangeSkills = (event) => {
+    const {
+      target: { value }
+    } = event;
+    setSkills(
+      // On autofill we get a stringified value.
+      typeof value === 'string' ? value.split(',') : value
+    );
+  };
   const submitRegister = (data) => {
-    data.role = ROLE_USER.JOB_SEEKER;
     delete data.password_confirmation;
-    toast
-      .promise(registerUserAPI({ ...data }), {
-        pending: 'Registrations is in progress...'
-      })
-      .then(() => {
-        navigate('/login');
-      });
+    data.role = ROLE_USER.JOB_SEEKER;
+    toast.promise(registerUserAPI(data), {
+      pending: 'Registering in...',
+      success: {
+        render() {
+          navigate('/login');
+          return 'Register success !';
+        }
+      }
+    });
   };
   return (
-    <form onSubmit={handleSubmit(submitRegister)}>
-      <Zoom in={true} style={{ transitionDelay: '200ms' }}>
-        <MuiCard sx={{ minWidth: 380, maxWidth: 380, marginTop: '6em' }}>
-          <Box
-            sx={{
-              margin: '1em',
-              display: 'flex',
-              justifyContent: 'center',
-              gap: 1
-            }}
-          >
-            <Avatar sx={{ bgcolor: 'primary.main' }}>
-              <LockIcon />
-            </Avatar>
-            <Avatar sx={{ bgcolor: 'primary.main' }}>
-              <TrelloIcon />
-            </Avatar>
-          </Box>
-          <Box
-            sx={{
-              padding: '0 1em 1em 1em',
-              '& .MuiInputBase-input': {
-                padding: '12px' // Chỉ thay đổi padding của input
-              },
-              '& .MuiFormLabel-root': {
-                fontSize: '15px'
-              }
-            }}
-          >
-            <Box sx={{ marginTop: '1em' }}>
+    <Container
+      maxWidth="xs"
+      sx={{
+        bgcolor: 'white',
+        margin: '4em auto auto auto',
+        padding: '16px !important',
+        borderRadius: 2
+      }}
+    >
+      <Box
+        sx={{
+          display: 'flex',
+          justifyContent: 'center',
+          gap: 1
+        }}
+      >
+        <Avatar sx={{ bgcolor: 'primary.main' }}>
+          <LockIcon />
+        </Avatar>
+        <Avatar sx={{ bgcolor: 'primary.main' }}>
+          <TrelloIcon />
+        </Avatar>
+      </Box>
+      <form onSubmit={handleSubmit(submitRegister)}>
+        <Zoom in={true} style={{ transitionDelay: '200ms' }}>
+          <Box>
+            <Box>
               <TextField
-                // autoComplete="nope"
-                autoFocus
                 fullWidth
-                label="Enter Email..."
+                label="Email"
                 type="email"
-                variant="outlined"
+                margin="dense"
                 error={!!errors['email']}
                 {...register('email', {
                   required: FIELD_REQUIRED_MESSAGE,
@@ -98,13 +120,12 @@ function RegisterForm() {
               />
               <FieldErrorAlert errors={errors} fieldName={'email'} />
             </Box>
-
-            <Box sx={{ marginTop: '1em' }}>
+            <Box>
               <TextField
                 fullWidth
-                label="Enter Password..."
+                label="Password"
                 type="password"
-                variant="outlined"
+                margin="dense"
                 error={!!errors['password']}
                 {...register('password', {
                   required: FIELD_REQUIRED_MESSAGE,
@@ -116,12 +137,12 @@ function RegisterForm() {
               />
               <FieldErrorAlert errors={errors} fieldName={'password'} />
             </Box>
-            <Box sx={{ marginTop: '1em' }}>
+            <Box>
               <TextField
                 fullWidth
-                label="Enter Password Confirmation..."
+                label="Confirm Password"
                 type="password"
-                variant="outlined"
+                margin="dense"
                 error={!!errors['password_confirmation']}
                 {...register('password_confirmation', {
                   validate: (value) => {
@@ -132,30 +153,111 @@ function RegisterForm() {
               />
               <FieldErrorAlert errors={errors} fieldName={'password_confirmation'} />
             </Box>
-          </Box>
-          <CardActions sx={{ padding: '0 1em 1em 1em' }}>
+            <Box
+              sx={{
+                display: 'flex',
+                justifyContent: 'space-between',
+                gap: 2,
+                marginTop: '8px',
+                marginBottom: '4px'
+              }}
+            >
+              <Box>
+                <TextField
+                  fullWidth
+                  label="Expensive"
+                  type="number"
+                  error={!!errors['expensive']}
+                  {...register('expensive', {
+                    required: FIELD_REQUIRED_MESSAGE
+                  })}
+                />
+                <FieldErrorAlert errors={errors} fieldName={'expensive'} />
+              </Box>
+              <Box>
+                <TextField
+                  fullWidth
+                  label="Desired Salary"
+                  type="number"
+                  error={!!errors['desiredSalary']}
+                  {...register('desiredSalary', {
+                    required: FIELD_REQUIRED_MESSAGE
+                  })}
+                />
+                <FieldErrorAlert errors={errors} fieldName={'desiredSalary'} />
+              </Box>
+            </Box>
+
+            <FormControl fullWidth margin="dense">
+              <InputLabel>Skills</InputLabel>
+              <Controller
+                name="skills"
+                control={control}
+                defaultValue={[]}
+                rules={{ required: FIELD_REQUIRED_MESSAGE }}
+                render={({ field }) => (
+                  <Select
+                    {...field}
+                    multiple
+                    label="Skills"
+                    onChange={(event) => {
+                      field.onChange(event.target.value);
+                      handleChangeSkills(event);
+                    }}
+                    error={!!errors['skills']}
+                    value={field.value}
+                    renderValue={(selected) => selected.join(', ')}
+                    MenuProps={MenuProps}
+                  >
+                    {SKILLS.map((skill) => (
+                      <MenuItem key={skill} value={skill}>
+                        <Checkbox checked={skills.indexOf(skill) > -1} />
+                        <ListItemText primary={skill} />
+                      </MenuItem>
+                    ))}
+                  </Select>
+                )}
+              />
+              <FieldErrorAlert errors={errors} fieldName={'skills'} />
+            </FormControl>
+            <Box>
+              <TextField
+                fullWidth
+                label="Education"
+                margin="dense"
+                type="txt"
+                error={!!errors['education']}
+                {...register('education', {
+                  required: FIELD_REQUIRED_MESSAGE
+                })}
+              />
+              <FieldErrorAlert errors={errors} fieldName={'education'} />
+            </Box>
+
             <Button
-              className="interceptor-loading"
               type="submit"
               variant="contained"
               color="primary"
-              size="large"
               fullWidth
+              sx={{
+                margin: '8px 0 4px'
+              }}
+              size="large"
             >
               Register
             </Button>
-          </CardActions>
-          <Box sx={{ padding: '0 1em 1em 1em', textAlign: 'center' }}>
-            <Typography>Already have an account?</Typography>
-            <Link to="/login" style={{ textDecoration: 'none' }}>
-              <Typography sx={{ color: 'primary.main', '&:hover': { color: '#ffbb39' } }}>
-                Log in!
-              </Typography>
-            </Link>
+            <Box sx={{ padding: '0 1em 1em 1em', textAlign: 'center' }}>
+              <Typography>Already have an account?</Typography>
+              <Link to="/login" style={{ textDecoration: 'none' }}>
+                <Typography sx={{ color: 'primary.main', '&:hover': { color: '#ffbb39' } }}>
+                  Log in!
+                </Typography>
+              </Link>
+            </Box>
           </Box>
-        </MuiCard>
-      </Zoom>
-    </form>
+        </Zoom>
+      </form>
+    </Container>
   );
 }
 

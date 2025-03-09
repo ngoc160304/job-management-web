@@ -1,7 +1,7 @@
 import styles from '../../styles/Table.module.css';
 import ListJob from './ListJob/ListJob';
 
-const TableJobs = ({ title, listJob }) => {
+const TableJobs = ({ title, listJob, onReload }) => {
   return (
     <div className={styles.data_section}>
       <div className={styles.section_header}>
@@ -11,14 +11,14 @@ const TableJobs = ({ title, listJob }) => {
         <thead>
           <tr>
             <th>STT</th>
-            <th>Tiêu đề</th>
+            <th>Vị trí</th>
             <th>Công ty</th>
             <th>Ngày đăng</th>
             <th>Trạng thái</th>
             <th>Thao tác</th>
           </tr>
         </thead>
-        {/* <ListJob listJob={listJob} /> */}
+        <ListJob listJob={listJob} onReload={onReload} />
       </table>
     </div>
   );

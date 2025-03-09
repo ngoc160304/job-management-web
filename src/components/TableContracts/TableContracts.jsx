@@ -1,28 +1,25 @@
-import RecentJob from './RecenetJob/RecentJob';
-import styles from '../DashBoard.module.css';
+import styles from '../../styles/Table.module.css';
+import ListContracts from './ListContracts/ListContracts';
 
-const RecentJobs = () => {
+const TableContracts = ({ title, listContracts, onReload }) => {
   return (
     <div className={styles.data_section}>
       <div className={styles.section_header}>
-        <h3 className={styles.section_title}>Việc làm mới đăng</h3>
+        <h3 className={styles.section_title}>{title}</h3>
       </div>
       <table className={styles.data_table}>
         <thead>
           <tr>
             <th>STT</th>
-            <th>Tiêu đề</th>
             <th>Công ty</th>
             <th>Ngày đăng</th>
             <th>Trạng thái</th>
             <th>Thao tác</th>
           </tr>
         </thead>
-        <tbody>
-          <RecentJob />
-        </tbody>
+        <ListContracts listContracts={listContracts} onReload={onReload} />
       </table>
     </div>
   );
 };
-export default RecentJobs;
+export default TableContracts;

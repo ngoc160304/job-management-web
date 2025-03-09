@@ -8,11 +8,11 @@ const initialState = {
 };
 
 export const loginUserAPI = createAsyncThunk('user/loginUserAPI', async (data) => {
-  const request = await authorizeAxiosIntance.post(`${API_ROOT}/v1/users/login`, data);
+  const request = await authorizeAxiosIntance.post(`${API_ROOT}/v1/auth/login`, data);
   return request.data;
 });
 export const logOutUserAPI = createAsyncThunk('user/logOutUserAPI', async () => {
-  const request = await authorizeAxiosIntance.delete(`${API_ROOT}/v1/users/logout`);
+  const request = await authorizeAxiosIntance.delete(`${API_ROOT}/v1/auth/logout`);
   return request.data;
 });
 export const userSlice = createSlice({

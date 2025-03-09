@@ -6,7 +6,7 @@ const Job = ({ job }) => {
       <div className={styles.job_company_logo}>
         <i className="fas fa-code" />
       </div>
-      <h3 className={styles.job_title}>{job.title}</h3>
+      <h3 className={styles.job_title}>{job.position}</h3>
       <div className={styles.job_details}>
         <p>
           <i className="fas fa-building" /> Tech Solutions

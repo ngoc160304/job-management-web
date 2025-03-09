@@ -1,5 +1,5 @@
 import { ROLE_USER, STATUS } from './constants';
-
+import dayjs from 'dayjs';
 const capitalizeFirstLetter = (val) => {
   if (!val) return '';
   return `${val.charAt(0).toUpperCase()}${val.slice(1)}`;
@@ -30,7 +30,7 @@ export const interceptorLoadingElements = (calling) => {
 export const roleName = (role) => {
   if (role === ROLE_USER.ADMIN) {
     return 'Admin';
-  } else if (role === ROLE_USER.EMPLOYER) {
+  } else if (role === ROLE_USER.JOB_SEEKER) {
     return 'Người tìm việc';
   } else if (role === ROLE_USER.INTERVIEER) {
     return 'Người phỏng vấn';
@@ -41,6 +41,14 @@ export const roleName = (role) => {
 export const statusName = (status) => {
   if (status === STATUS.ACTIVE) return 'Hoạt động';
   else if (status === STATUS.INACTIVE) return 'Ngừng hoạt động';
+  else if (status === STATUS.PENDING) return 'Chờ phê duyệt';
+  else if (status === STATUS.ACCEPT) return 'Phê duyệt';
+  return 'Từ chối';
 };
-
+export const convertDate = (date) => {
+  return dayjs(date).format('MMM DD YYYY');
+};
+export const convertDateTime = (dateTime) => {
+  return dayjs(dateTime).format('MMM DD YYYY HH:mm A');
+};
 export { capitalizeFirstLetter, generatePlaceholderCard };

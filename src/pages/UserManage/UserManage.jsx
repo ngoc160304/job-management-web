@@ -12,13 +12,13 @@ const UserMange = () => {
   }, []);
   const fetchApiUser = async () => {
     const result = await getListUserAdminAPI();
-    setListUser(result);
+    setListUser(result.users);
   };
   return (
     <Box>
       <Header title={'Danh Sách Người Dùng'} />
       {listUser ? (
-        <TableUser title={'Người Dùng'} listUser={listUser} />
+        <TableUser title={'Người Dùng'} listUser={listUser} onReload={fetchApiUser} />
       ) : (
         <Box
           sx={{

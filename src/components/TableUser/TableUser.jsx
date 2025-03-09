@@ -1,13 +1,16 @@
+import { Link } from 'react-router-dom';
 import styles from '../../styles/Table.module.css';
 import ListUser from './ListUser/ListUser';
-const TableUser = ({ title, listUser }) => {
+const TableUser = ({ title, listUser, onReload }) => {
   return (
     <div className={styles.data_section}>
       <div className={styles.section_header}>
         <h3 className={styles.section_title}>{title}</h3>
-        <button className={styles.action_button + ' ' + styles.btn_primary}>
-          <i className="fas fa-plus" /> Thêm người dùng
-        </button>
+        <Link to="/admin/users/create">
+          <button className={styles.action_button + ' ' + styles.btn_primary}>
+            <i className="fas fa-plus" /> Thêm người dùng
+          </button>
+        </Link>
       </div>
       <table className={styles.data_table}>
         <thead>
@@ -20,7 +23,7 @@ const TableUser = ({ title, listUser }) => {
             <th>Thao tác</th>
           </tr>
         </thead>
-        <ListUser listUser={listUser} />
+        <ListUser listUser={listUser} onReload={onReload} />
       </table>
     </div>
   );

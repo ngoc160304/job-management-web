@@ -7,8 +7,12 @@ import PlanetSvg from '../../assets/404/planet.svg?react';
 
 import AstronautSvg from '../../assets/404/astronaut.svg?react';
 import { Link } from 'react-router-dom';
-
+import { useEffect } from 'react';
+import { toast } from 'react-toastify';
 function NotFound() {
+  useEffect(() => {
+    toast.dismiss();
+  }, []);
   return (
     <Box
       sx={{
@@ -69,7 +73,7 @@ function NotFound() {
           </Typography>
           &nbsp;
           <Typography variant="span" sx={{ color: '#fdba26', fontWeight: 500 }}>
-            TrungQuanDev
+            NgocDev
           </Typography>
           ?<br />
           Hmm, looks like that page doesn&apos;t exist.
