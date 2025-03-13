@@ -23,6 +23,8 @@ import CreateJob from './pages/JobManageEmployer/CreateJob/CreateJob.jsx';
 import ContractEmployer from './pages/ContractEmployer/ContractEmployer.jsx';
 import EditContractEmp from './pages/ContractEmployer/EditContract/EditContract.jsx';
 import JobManageEmployer from './pages/JobManageEmployer/JobManageEmployer.jsx';
+import Apply from './pages/Apply/Apply.jsx';
+import Search from './pages/Search/Search.jsx';
 // import CreateForm from './pages/UserManage/CreateForm/CreateForm.jsx';
 const PrivateRoute = ({ isAllowed, redirectPath = '/login' }) => {
   if (!isAllowed) {
@@ -37,6 +39,8 @@ function App() {
       <Route path="/" element={<Home />} />
       <Route path="/login" element={<Auth />} />
       <Route path="/register" element={<Auth />} />
+      <Route path="/apply/:id" element={<Apply />} />
+      <Route path="/search" element={<Search />} />
       <Route path="*" element={<NotFound />} />
       <Route element={<PrivateRoute isAllowed={currentUser?.role === ROLE_USER.ADMIN} />}>
         <Route element={<AdminLayout />}>

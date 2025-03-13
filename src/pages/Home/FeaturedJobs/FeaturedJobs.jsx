@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react';
-import styles from './FeaturedJobs.module.css';
+import styles from '../../../styles/FeaturedJobs.module.css';
 import ListJobs from './ListJobs/ListJobs';
-import { JobFeaturedAPI } from '../../../apis';
+import { getListJobByUserAPI } from '../../../apis';
 const FeaturedJobs = () => {
   const [listJobs, setListJobs] = useState(null);
   useEffect(() => {
-    JobFeaturedAPI().then((res) => {
+    getListJobByUserAPI().then((res) => {
       setListJobs(res.jobs);
     });
   }, []);

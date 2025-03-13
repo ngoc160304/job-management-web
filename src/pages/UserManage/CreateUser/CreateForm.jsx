@@ -69,17 +69,25 @@ const CreateUser = () => {
   };
   const submitCreateUser = (data) => {
     delete data.password_confirmation;
-
     if (data.role === ROLE_USER.JOB_SEEKER) {
       delete data.employerId;
       delete data.companyName;
     }
     if (data.role === ROLE_USER.INTERVIEER) {
       delete data.companyName;
+      delete data.expensive;
+      delete data.desiredSalary;
+      delete data.skills;
+      delete data.education;
     }
     if (data.role === ROLE_USER.EMPLOYER) {
       delete data.employerId;
+      delete data.expensive;
+      delete data.desiredSalary;
+      delete data.skills;
+      delete data.education;
     }
+
     toast.promise(createUserByAdmin(data), {
       pending: 'Đang tạo mới...',
       success: {

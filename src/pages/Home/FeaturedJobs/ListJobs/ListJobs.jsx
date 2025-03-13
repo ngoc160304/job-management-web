@@ -1,4 +1,4 @@
-import styles from '../FeaturedJobs.module.css';
+import styles from '../../../../styles/FeaturedJobs.module.css';
 import Job from './Job/Job';
 
 const ListJobs = ({ listJobs }) => {

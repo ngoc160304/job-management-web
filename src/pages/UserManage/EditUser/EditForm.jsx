@@ -39,7 +39,6 @@ const EditUser = () => {
   const [employers, setEmployers] = useState(null);
   const [employer, setEmployer] = useState('');
   const [user, setUser] = useState(null);
-
   const navigate = useNavigate();
   const {
     register,
@@ -83,16 +82,26 @@ const EditUser = () => {
   };
   const submitEditUser = async (data) => {
     delete data.password_confirmation;
-
+    if (!data.password) {
+      delete data.password;
+    }
     if (data.role === ROLE_USER.JOB_SEEKER) {
       delete data.employerId;
       delete data.companyName;
     }
     if (data.role === ROLE_USER.INTERVIEER) {
       delete data.companyName;
+      delete data.expensive;
+      delete data.desiredSalary;
+      delete data.skills;
+      delete data.education;
     }
     if (data.role === ROLE_USER.EMPLOYER) {
       delete data.employerId;
+      delete data.expensive;
+      delete data.desiredSalary;
+      delete data.skills;
+      delete data.education;
     }
     toast.promise(updateUser(id, data), {
       pending: 'Đang chỉnh sửa...',
@@ -278,6 +287,7 @@ const EditUser = () => {
                     {...register('expensive', {
                       required: FIELD_REQUIRED_MESSAGE
                     })}
+                    defaultValue={user?.expensive}
                   />
                   <FieldErrorAlert errors={errors} fieldName={'expensive'} />
                 </Box>
@@ -291,6 +301,7 @@ const EditUser = () => {
                     {...register('desiredSalary', {
                       required: FIELD_REQUIRED_MESSAGE
                     })}
+                    defaultValue={user?.desiredSalary}
                   />
                   <FieldErrorAlert errors={errors} fieldName={'desiredSalary'} />
                 </Box>
@@ -300,12 +311,13 @@ const EditUser = () => {
                   <Controller
                     name="skills"
                     control={control}
-                    defaultValue={[]}
+                    defaultValue={user?.skills}
                     rules={{ required: FIELD_REQUIRED_MESSAGE }}
                     render={({ field }) => (
                       <Select
                         {...field}
                         multiple
+                        defaultValue={user?.skills}
                         label="Skills"
                         onChange={(event) => {
                           field.onChange(event.target.value);
@@ -337,6 +349,7 @@ const EditUser = () => {
                     {...register('education', {
                       required: FIELD_REQUIRED_MESSAGE
                     })}
+                    defaultValue={user?.education}
                   />
                   <FieldErrorAlert errors={errors} fieldName={'education'} />
                 </Box>

@@ -37,8 +37,19 @@ export const updateUser = async (id, data) => {
 /** Users */
 
 /** Job */
-export const JobFeaturedAPI = async () => {
-  const response = await authorizeAxiosIntance.get(`${API_ROOT}/v1/jobs/user/list-jobs`);
+export const getListJobByUserAPI = async (limit, skills, workLocation, salary) => {
+  limit = limit || 3;
+  let query = `?limit=${limit}`;
+  if (skills) {
+    query += `&skills=${skills}`;
+  }
+  if (workLocation) {
+    query += `&workLocation=${workLocation}`;
+  }
+  if (salary) {
+    query += `&salary=${salary}`;
+  }
+  const response = await authorizeAxiosIntance.get(`${API_ROOT}/v1/jobs/user/list-jobs${query}`);
   return response.data;
 };
 export const getListJobAdminAPI = async () => {
@@ -65,6 +76,10 @@ export const changeStatusJob = async (id, status) => {
 };
 export const createJobAPI = async (data) => {
   const response = await authorizeAxiosIntance.post(`${API_ROOT}/v1/jobs`, data);
+  return response.data;
+};
+export const getJobDetailsJobByUserAPI = async (id) => {
+  const response = await authorizeAxiosIntance.get(`${API_ROOT}/v1/jobs/user/details/${id}`);
   return response.data;
 };
 /** Job */
@@ -132,3 +147,10 @@ export const statisticByEmployerAPI = async () => {
   return response.data;
 };
 /** Employer */
+
+/** Candidate */
+export const applyJobAPI = async (data) => {
+  const response = await authorizeAxiosIntance.post(`${API_ROOT}/v1/candidates`, data);
+  return response.data;
+};
+/** Candidate */

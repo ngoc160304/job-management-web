@@ -34,16 +34,16 @@ function LoginForm() {
   } = useForm();
   const submitLogIn = (data) => {
     const { email, password } = data;
-    toast.promise(dispatch(loginUserAPI({ email, password })), {
-      pending: 'Logging in...',
-      success: {
-        render() {
+    toast
+      .promise(dispatch(loginUserAPI({ email, password })), {
+        pending: 'Logging in...'
+      })
+      .then((res) => {
+        if (!res.error) {
+          toast.success('login success');
           navigate('/');
-          return 'Login success !';
         }
-      },
-      error: 'Login failed !'
-    });
+      });
   };
   return (
     <form onSubmit={handleSubmit(submitLogIn)}>

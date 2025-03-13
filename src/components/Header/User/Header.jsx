@@ -8,14 +8,11 @@ const Header = () => {
   return (
     <header className={styles.header}>
       <nav className={styles.nav}>
-        <Link to="#" className={styles.logo}>
+        <Link to="/" className={styles.logo}>
           <i className="fas fa-briefcase" />
           JobPortal
         </Link>
         <div className={styles.nav_links}>
-          <Link to="#employers">
-            <i className="fas fa-building" /> Nhà tuyển dụng
-          </Link>
           {currentUser == null ? (
             <>
               <Link to="/login">
