@@ -25,6 +25,7 @@ import EditContractEmp from './pages/ContractEmployer/EditContract/EditContract.
 import JobManageEmployer from './pages/JobManageEmployer/JobManageEmployer.jsx';
 import Apply from './pages/Apply/Apply.jsx';
 import Search from './pages/Search/Search.jsx';
+import CandidateManage from './pages/CandidateManage/CandidateManage.jsx';
 // import CreateForm from './pages/UserManage/CreateForm/CreateForm.jsx';
 const PrivateRoute = ({ isAllowed, redirectPath = '/login' }) => {
   if (!isAllowed) {
@@ -63,7 +64,8 @@ function App() {
           <Route path="/employer/jobs" element={<JobManageEmployer />} />
           <Route path="/employer/create-job" element={<CreateJob />} />
           <Route path="/employer/contract" element={<ContractEmployer />} />
-          <Route path="/employer/contract/edit/:id" element={<EditContractEmp />} />
+          <Route path="/employer/contract/edit/:id" element={<EditContractEmp />} />`
+          <Route path="/employer/candidates" element={<CandidateManage />} />
         </Route>
       </Route>
     </Routes>
