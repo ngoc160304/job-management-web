@@ -58,7 +58,7 @@ const ContractEmployer = () => {
             </Box>
             <Typography
               variant="body1"
-              paragraph
+              component="h2"
               gutterBottom
               sx={{
                 '& ul': {

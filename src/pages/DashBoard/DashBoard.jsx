@@ -21,7 +21,7 @@ const DashBoard = () => {
     fetchApiJob();
   }, []);
   const fetchApiUser = async () => {
-    const users = await getListUserAdminAPI();
+    const users = await getListUserAdminAPI(5);
     setListUser(users.users);
   };
   const fetchApiJob = async () => {

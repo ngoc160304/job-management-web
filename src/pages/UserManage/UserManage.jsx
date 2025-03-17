@@ -11,7 +11,7 @@ const UserMange = () => {
     fetchApiUser();
   }, []);
   const fetchApiUser = async () => {
-    const result = await getListUserAdminAPI();
+    const result = await getListUserAdminAPI(20);
     setListUser(result.users);
   };
   return (

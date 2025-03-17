@@ -27,34 +27,29 @@ const FormApply = ({ job }) => {
       toast.warn('Vui lòng tạo tài khoản');
       return;
     }
+    const formData = new FormData();
     if (currentUser.role !== ROLE_USER.JOB_SEEKER) {
       navigate('/login');
       toast.error('Chức năng này chỉ cho người tìm việc');
       return;
     }
-    if (!data.cvLink) {
+    if (data.cvLink) {
+      formData.append('cvLink', data.cvLink);
+    } else {
       delete data.cvLink;
     }
     data.jobSeekerId = currentUser._id;
     data.employerId = job.employerInfo._id;
     data.jobId = job._id;
-    data.jobSeekerId = currentUser._id;
-    data.employerId = job.employerInfo._id;
-    data.jobId = job._id;
-    const formData = new FormData();
-    formData.append('cvLink', data.cvLink);
+    data.position = job.position;
     formData.append('jobSeekerId', data.jobSeekerId);
     formData.append('employerId', data.employerId);
     formData.append('jobId', data.jobId);
     formData.append('coverLetter', data.coverLetter);
+    formData.append('position', data.position);
     toast.promise(applyJobAPI(formData), {
       pending: 'Loading...',
-      success: {
-        render() {
-          navigate('/');
-          return 'Ứng tuyển thành công !';
-        }
-      }
+      success: 'Ứng tuyển thành công !'
     });
   };
 

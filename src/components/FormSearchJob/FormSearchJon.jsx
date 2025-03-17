@@ -9,9 +9,9 @@ import {
   TextField,
   useTheme
 } from '@mui/material';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { JOB_LOCATION, SKILLS } from '../../utils/constants';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate, useSearchParams } from 'react-router-dom';
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
 const MenuProps = {
@@ -30,37 +30,37 @@ function getStyles(name, personName, theme) {
         : theme.typography.fontWeightMedium
   };
 }
-const FormSearchJob = () => {
+const FormSearchJob = ({ onSearch }) => {
   const location = useLocation();
-  const getStoredValue = (key, defaultValue) => {
-    const storedValue = localStorage.getItem(key);
-    return storedValue ? JSON.parse(storedValue) : defaultValue;
-  };
+  const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
   const theme = useTheme();
-  const [workLocation, setWorkLocation] = useState(() => getStoredValue('workLocation', ''));
-  const [skills, setSkills] = useState(() => getStoredValue('skills', []));
-  const [salary, setSalary] = useState(() => getStoredValue('salary', ''));
+  const [workLocation, setWorkLocation] = useState(searchParams.get('work-location') || '');
+  const [skills, setSkills] = useState(searchParams.get('skills')?.split(',') || []);
+  const [salary, setSalary] = useState(searchParams.get('salary') || '');
   const handleChangeSkills = (event) => {
     const {
       target: { value }
     } = event;
     setSkills(typeof value === 'string' ? value.split(',') : value);
   };
-  useEffect(() => {
-    localStorage.setItem('workLocation', JSON.stringify(workLocation));
-  }, [workLocation]);
-
-  useEffect(() => {
-    localStorage.setItem('skills', JSON.stringify(skills));
-  }, [skills]);
-  useEffect(() => {
-    localStorage.setItem('salary', JSON.stringify(salary));
-  }, [salary]);
-  const navigate = useNavigate();
 
   const handleSearch = async () => {
+    let search = '';
+    if (workLocation) {
+      search += `&work-location=${workLocation}`;
+    }
+    if (skills?.length) {
+      search += `&skills=${skills}`;
+    }
+    if (salary) {
+      search += `&salary=${salary}`;
+    }
     if (location.pathname !== '/search') {
-      navigate('/search');
+      navigate(`/search${search ? '?' + search : ''}`);
+    } else {
+      navigate(`/search${search ? '?' + search : ''}`);
+      onSearch(skills, workLocation, salary);
     }
   };
   return (
@@ -86,7 +86,7 @@ const FormSearchJob = () => {
         marginTop: 3
       }}
     >
-      <FormControl variant="outlined" sx={{ minWidth: 220 }}>
+      <FormControl variant="outlined" sx={{ minWidth: 220, maxWidth: 250 }}>
         <InputLabel id="multiple-skills-label">Skills</InputLabel>
         <Select
           labelId="multiple-skills-label"
@@ -110,12 +110,12 @@ const FormSearchJob = () => {
         <Select
           labelId="select-work-location-label"
           id="select-work-location"
-          value={workLocation}
           onChange={(e) => {
             setWorkLocation(e.target.value);
           }}
           autoWidth
           label="Work Location"
+          value={workLocation}
         >
           {JOB_LOCATION.map((jobLocation) => (
             <MenuItem key={jobLocation} value={jobLocation}>
@@ -137,7 +137,6 @@ const FormSearchJob = () => {
           type="number"
           onChange={(e) => {
             setSalary(parseInt(e.target.value));
-            // setSalary();
           }}
           value={salary}
         />

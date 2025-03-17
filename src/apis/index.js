@@ -10,8 +10,9 @@ export const refreshTokenAPI = async () => {
   const response = await authorizeAxiosIntance.get(`${API_ROOT}/v1/auth/refresh_token`);
   return response.data;
 };
-export const getListUserAdminAPI = async () => {
-  const response = await authorizeAxiosIntance.get(`${API_ROOT}/v1/users/`);
+export const getListUserAdminAPI = async (limit = 10) => {
+  let query = `?limit=${limit}`;
+  const response = await authorizeAxiosIntance.get(`${API_ROOT}/v1/users${query}`);
   return response.data;
 };
 export const deleteUserAdminAPI = async (id) => {
@@ -80,6 +81,10 @@ export const createJobAPI = async (data) => {
 };
 export const getJobDetailsJobByUserAPI = async (id) => {
   const response = await authorizeAxiosIntance.get(`${API_ROOT}/v1/jobs/user/details/${id}`);
+  return response.data;
+};
+export const updateJobAPI = async (id, data) => {
+  const response = await authorizeAxiosIntance.put(`${API_ROOT}/v1/jobs/update/${id}`, data);
   return response.data;
 };
 /** Job */
@@ -151,6 +156,26 @@ export const statisticByEmployerAPI = async () => {
 /** Candidate */
 export const applyJobAPI = async (data) => {
   const response = await authorizeAxiosIntance.post(`${API_ROOT}/v1/candidates`, data);
+  return response.data;
+};
+export const getListCandidatesAPI = async (query = '') => {
+  const response = await authorizeAxiosIntance.get(
+    `${API_ROOT}/v1/candidates/list-candidate?${query}`
+  );
+  return response.data;
+};
+export const deleteCandidateAPI = async (id) => {
+  const response = await authorizeAxiosIntance.delete(`${API_ROOT}/v1/candidates/delete/${id}`);
+  return response.data;
+};
+export const getCandidateDetailsAPI = async (id) => {
+  const response = await authorizeAxiosIntance.get(`${API_ROOT}/v1/candidates/details/${id}`);
+  return response.data;
+};
+export const changeStatusCandiateAPI = async (status, id, email) => {
+  const response = await authorizeAxiosIntance.put(
+    `${API_ROOT}/v1/candidates/change-status/${status}/${id}/${email}`
+  );
   return response.data;
 };
 /** Candidate */

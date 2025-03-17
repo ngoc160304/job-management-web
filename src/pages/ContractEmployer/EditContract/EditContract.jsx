@@ -13,9 +13,7 @@ const EditContractEmp = () => {
     handleSubmit,
     formState: { errors }
   } = useForm({
-    defaultValues: {
-      description: ''
-    }
+    defaultValues: {}
   });
   const navigate = useNavigate();
   const { id } = useParams();

@@ -8,6 +8,7 @@ const TinyMCEEditor = ({ control, name, initialValue }) => {
       name={name}
       control={control}
       rules={{ required: FIELD_REQUIRED_MESSAGE }}
+      defaultValue={initialValue}
       render={({ field }) => (
         <Editor
           initialValue={initialValue ? initialValue : '<p></p>'}

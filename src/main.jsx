@@ -13,6 +13,18 @@ import { BrowserRouter } from 'react-router-dom';
 const persistor = persistStore(store);
 import { injectStore } from './utils/authorizeAxios.js';
 injectStore(store);
+import { useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
+
+export default function ScrollToTop() {
+  const { pathname } = useLocation();
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
+
+  return null;
+}
 ReactDOM.createRoot(document.getElementById('root')).render(
   <BrowserRouter
     basename="/"
@@ -36,6 +48,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
           }}
         >
           <CssBaseline />
+          <ScrollToTop />
           <App />
           <ToastContainer position="bottom-left" theme="colored" autoClose={2000} />
         </ConfirmProvider>

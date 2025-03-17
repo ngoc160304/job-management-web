@@ -26,6 +26,9 @@ import JobManageEmployer from './pages/JobManageEmployer/JobManageEmployer.jsx';
 import Apply from './pages/Apply/Apply.jsx';
 import Search from './pages/Search/Search.jsx';
 import CandidateManage from './pages/CandidateManage/CandidateManage.jsx';
+import JobDetails from './pages/JobManageEmployer/_id.jsx';
+import EditJobEmployer from './pages/JobManageEmployer/EditJob/EditJob.jsx';
+import CandidateDetails from './pages/CandidateManage/_id.jsx';
 // import CreateForm from './pages/UserManage/CreateForm/CreateForm.jsx';
 const PrivateRoute = ({ isAllowed, redirectPath = '/login' }) => {
   if (!isAllowed) {
@@ -33,6 +36,7 @@ const PrivateRoute = ({ isAllowed, redirectPath = '/login' }) => {
   }
   return <Outlet />;
 };
+
 function App() {
   const currentUser = useSelector(selectCurrentUser);
   return (
@@ -62,10 +66,13 @@ function App() {
         <Route element={<AdminLayout />}>
           <Route path="/employer/dash-board" element={<DashBoardEmployer />} />
           <Route path="/employer/jobs" element={<JobManageEmployer />} />
+          <Route path="/employer/jobs/:id" element={<JobDetails />} />
+          <Route path="/employer/jobs/edit/:id" element={<EditJobEmployer />} />
           <Route path="/employer/create-job" element={<CreateJob />} />
           <Route path="/employer/contract" element={<ContractEmployer />} />
           <Route path="/employer/contract/edit/:id" element={<EditContractEmp />} />`
           <Route path="/employer/candidates" element={<CandidateManage />} />
+          <Route path="/employer/candidates/details/:id" element={<CandidateDetails />} />
         </Route>
       </Route>
     </Routes>

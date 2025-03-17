@@ -5,16 +5,24 @@ import FormSearchJob from '../../components/FormSearchJob/FormSearchJon';
 import { useEffect, useState } from 'react';
 import { getListJobByUserAPI } from '../../apis';
 import JobItem from '../../components/JobItem/JobItem';
+import { useSearchParams } from 'react-router-dom';
 const Search = () => {
-  const skills = JSON.parse(localStorage.getItem('skills'));
-  const salary = JSON.parse(localStorage.getItem('salary'));
-  const workLocation = JSON.parse(localStorage.getItem('workLocation'));
+  const [searchParams] = useSearchParams();
+
+  const salary = searchParams.get('salary') || '';
+  const workLocation = searchParams.get('work-location') || '';
+  const skills = searchParams.get('skills')?.split(',') || '';
   const [listJob, setListJob] = useState(null);
+
   useEffect(() => {
-    getListJobByUserAPI(10, skills, workLocation, salary).then((data) => {
-      setListJob(data.jobs);
-    });
-  }, [skills, workLocation, salary]);
+    fetchSearchJobApi(skills, workLocation, salary);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+  const fetchSearchJobApi = async (skills, workLocation, salary) => {
+    const data = await getListJobByUserAPI(10, skills, workLocation, salary);
+    setListJob(data.jobs);
+  };
+
   return (
     <Box>
       <Header />
@@ -40,7 +48,7 @@ const Search = () => {
             justifyContent: 'center'
           }}
         >
-          <FormSearchJob />
+          <FormSearchJob onSearch={fetchSearchJobApi} />
         </Box>
         <Box
           sx={{

@@ -269,15 +269,7 @@ const EditUser = () => {
             )}
             {role === ROLE_USER.JOB_SEEKER && (
               <>
-                <Box
-                  sx={{
-                    display: 'flex',
-                    justifyContent: 'space-between',
-                    gap: 2,
-                    marginTop: '8px',
-                    marginBottom: '4px'
-                  }}
-                >
+                <Box sx={{ marginBottom: '1em' }}>
                   <TextField
                     margin="dense"
                     fullWidth
@@ -311,13 +303,13 @@ const EditUser = () => {
                   <Controller
                     name="skills"
                     control={control}
-                    defaultValue={user?.skills}
+                    defaultValue={user?.skills || []}
                     rules={{ required: FIELD_REQUIRED_MESSAGE }}
                     render={({ field }) => (
                       <Select
                         {...field}
                         multiple
-                        defaultValue={user?.skills}
+                        defaultValue={user?.skills || []}
                         label="Skills"
                         onChange={(event) => {
                           field.onChange(event.target.value);
@@ -339,7 +331,7 @@ const EditUser = () => {
                   />
                   <FieldErrorAlert errors={errors} fieldName={'skills'} />
                 </FormControl>
-                <Box>
+                <Box sx={{ mb: 2 }}>
                   <TextField
                     fullWidth
                     label="Education"
