@@ -57,8 +57,9 @@ export const getListJobAdminAPI = async () => {
   const response = await authorizeAxiosIntance.get(`${API_ROOT}/v1/jobs/admin/list-jobs`);
   return response.data;
 };
-export const getListJobEmployerAPI = async () => {
-  const response = await authorizeAxiosIntance.get(`${API_ROOT}/v1/jobs/list-jobs`);
+export const getListJobEmployerAPI = async (limit = 10) => {
+  let query = `?limit=${limit}`;
+  const response = await authorizeAxiosIntance.get(`${API_ROOT}/v1/jobs/list-jobs${query}`);
   return response.data;
 };
 export const deleteJob = async (id) => {
@@ -142,6 +143,10 @@ export const getComplainDetailAPI = async (id) => {
   const response = await authorizeAxiosIntance.get(`${API_ROOT}/v1/complains/details/${id}`);
   return response.data;
 };
+export const createComplainAPI = async (data) => {
+  const response = await authorizeAxiosIntance.post(`${API_ROOT}/v1/complains/`, data);
+  return response.data;
+};
 /** Complain */
 
 /** Employer */
@@ -178,4 +183,63 @@ export const changeStatusCandiateAPI = async (status, id, email) => {
   );
   return response.data;
 };
+export const getJobAppliedAPI = async () => {
+  const response = await authorizeAxiosIntance.get(`${API_ROOT}/v1/candidates/jobs-applied`);
+  return response.data;
+};
 /** Candidate */
+
+/** Interview */
+export const getListCandidatesByInterviewerAPI = async () => {
+  const response = await authorizeAxiosIntance.get(`${API_ROOT}/v1/interviews/list-candidate`);
+  return response.data;
+};
+export const createRoomChatAPI = async (data) => {
+  const response = await authorizeAxiosIntance.post(
+    `${API_ROOT}/v1/interviews/create-room-chat`,
+    data
+  );
+  return response.data;
+};
+export const createSchedualAPI = async (data) => {
+  const response = await authorizeAxiosIntance.post(
+    `${API_ROOT}/v1/interviews/create-schedual`,
+    data
+  );
+  return response.data;
+};
+export const getListSchedualAPI = async () => {
+  const response = await authorizeAxiosIntance.get(`${API_ROOT}/v1/interviews/list-schedual`);
+  return response.data;
+};
+/** Interview */
+
+/** Chat */
+export const getListUserChatAPI = async () => {
+  const response = await authorizeAxiosIntance.get(`${API_ROOT}/v1/chats/list-user-chat`);
+  return response.data;
+};
+export const getListMessageAPI = async (id) => {
+  const response = await authorizeAxiosIntance.get(`${API_ROOT}/v1/chats/list-chat/${id}`);
+  return response.data;
+};
+export const getRoomChatDetailsAPI = async (id) => {
+  const response = await authorizeAxiosIntance.get(`${API_ROOT}/v1/chats/room-chat-details/${id}`);
+  return response.data;
+};
+/** Chat */
+
+/** Review */
+export const createReviewCandidateAPI = async (data) => {
+  const response = await authorizeAxiosIntance.post(`${API_ROOT}/v1/reviews/`, data);
+  return response.data;
+};
+export const getListReviewsAPI = async () => {
+  const response = await authorizeAxiosIntance.get(`${API_ROOT}/v1/reviews/list-reviews`);
+  return response.data;
+};
+export const getReviewDetailsAPI = async (id) => {
+  const response = await authorizeAxiosIntance.get(`${API_ROOT}/v1/reviews/details/${id}`);
+  return response.data;
+};
+/** Review */

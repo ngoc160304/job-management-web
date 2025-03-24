@@ -15,6 +15,10 @@
   --text-light: #95a5a6;
   --light-color: #f5f6fa;
   --sidebar-width: 250px;
+  --success-color: #2ecc71;
+  --chat-bg: #fff;
+  --message-sender-bg: #e3f2fd;
+  --message-receiver-bg: #f5f6fa;
 }
 
 body {

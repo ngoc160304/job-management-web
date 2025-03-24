@@ -12,7 +12,7 @@ import Logout from '@mui/icons-material/Logout';
 import Typography from '@mui/material/Typography';
 import { useDispatch } from 'react-redux';
 import { logOutUserAPI } from '../../../../redux/User/userSlice';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { ROLE_USER } from '../../../../utils/constants';
 import SpaceDashboardIcon from '@mui/icons-material/SpaceDashboard';
@@ -30,13 +30,22 @@ const Profile = ({ user }) => {
     setAnchorEl(null);
   };
   const handleLogOut = () => {
-    dispatch(logOutUserAPI());
-    navigate('/');
-    toast.success('Logout success !');
+    toast
+      .promise(dispatch(logOutUserAPI()), {
+        pending: 'Loading loggout...'
+      })
+      .then((res) => {
+        if (!res.error) {
+          toast.success('logout successs !');
+          navigate('/login');
+        }
+      });
   };
   const handleToDashBoard = (user) => {
     if (user.role == ROLE_USER.ADMIN) {
       navigate('/admin/dash-board');
+    } else if (user.role == ROLE_USER.INTERVIEER) {
+      navigate('/interviewer/list-candidates');
     } else {
       navigate('/employer/dash-board');
     }
@@ -103,9 +112,15 @@ const Profile = ({ user }) => {
         transformOrigin={{ horizontal: 'right', vertical: 'top' }}
         anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
       >
-        <MenuItem>
-          <Avatar /> Profile
-        </MenuItem>
+        <Link to="/profile">
+          <MenuItem
+            sx={{
+              color: '#000000DE'
+            }}
+          >
+            <Avatar /> Profile
+          </MenuItem>
+        </Link>
         <Divider />
 
         <MenuItem>
@@ -114,7 +129,9 @@ const Profile = ({ user }) => {
           </ListItemIcon>
           Settings
         </MenuItem>
-        {(user.role === ROLE_USER.ADMIN || user.role === ROLE_USER.EMPLOYER) && (
+        {(user.role === ROLE_USER.ADMIN ||
+          user.role === ROLE_USER.EMPLOYER ||
+          user.role === ROLE_USER.INTERVIEER) && (
           <MenuItem
             onClick={() => {
               handleToDashBoard(user);

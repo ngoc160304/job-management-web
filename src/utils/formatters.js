@@ -51,4 +51,7 @@ export const convertDate = (date) => {
 export const convertDateTime = (dateTime) => {
   return dayjs(dateTime).format('MMM DD YYYY HH:mm A');
 };
+export const convertTime = (dateTime) => {
+  return dayjs(dateTime).format('HH:mm');
+};
 export { capitalizeFirstLetter, generatePlaceholderCard };

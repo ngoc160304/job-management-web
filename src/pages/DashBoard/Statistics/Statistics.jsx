@@ -12,7 +12,7 @@ const Statistics = ({ statistics }) => {
       <StatisticItem
         icon={'fas fa-briefcase'}
         quantity={statistics.jobs}
-        title={'Việc làm đang tuyển'}
+        title={'Tổng việc làm'}
         colorIcon={styles.stat_jobs}
       />
       <StatisticItem

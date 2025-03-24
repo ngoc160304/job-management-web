@@ -41,7 +41,7 @@ const Apply = () => {
               }}
             >
               <CardContent>
-                <JobDetails job={job} />
+                <JobDetails job={job} contract={job.contract} />
                 <FormApply job={job} />
               </CardContent>
             </Card>

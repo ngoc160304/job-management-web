@@ -88,6 +88,8 @@ const EditUser = () => {
     if (data.role === ROLE_USER.JOB_SEEKER) {
       delete data.employerId;
       delete data.companyName;
+      data.expensive = parseInt(data.expensive);
+      data.desiredSalary = parseInt(data.desiredSalary);
     }
     if (data.role === ROLE_USER.INTERVIEER) {
       delete data.companyName;

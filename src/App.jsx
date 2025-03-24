@@ -29,6 +29,14 @@ import CandidateManage from './pages/CandidateManage/CandidateManage.jsx';
 import JobDetails from './pages/JobManageEmployer/_id.jsx';
 import EditJobEmployer from './pages/JobManageEmployer/EditJob/EditJob.jsx';
 import CandidateDetails from './pages/CandidateManage/_id.jsx';
+import JobApplied from './pages/JobApplied/JobApplied.jsx';
+import Chat from './pages/Chat/Chat.jsx';
+import Interviewees from './pages/Interviewees/Interviewees.jsx';
+import ChatLayout from './components/Layouts/ChatLayout/ChatLayout.jsx';
+import SchedualManage from './pages/SchedualManage/ShedualManage.jsx';
+import ReviewManage from './pages/ReviewManage/ReviewManage.jsx';
+import ReviewDetail from './pages/ReviewManage/_id.jsx';
+import Profile from './pages/Profile/Profile.jsx';
 // import CreateForm from './pages/UserManage/CreateForm/CreateForm.jsx';
 const PrivateRoute = ({ isAllowed, redirectPath = '/login' }) => {
   if (!isAllowed) {
@@ -45,10 +53,30 @@ function App() {
       <Route path="/login" element={<Auth />} />
       <Route path="/register" element={<Auth />} />
       <Route path="/apply/:id" element={<Apply />} />
+      <Route
+        element={
+          <PrivateRoute
+            isAllowed={
+              currentUser?.role === ROLE_USER.JOB_SEEKER ||
+              currentUser?.role === ROLE_USER.INTERVIEER
+            }
+          />
+        }
+      >
+        <Route path="/chat" element={<ChatLayout />}>
+          <Route path="/chat/:id" element={<Chat />} />
+        </Route>
+      </Route>
+      <Route element={<PrivateRoute isAllowed={currentUser != null} />}>
+        <Route path="/profile" element={<Profile />} />
+      </Route>
+      <Route element={<PrivateRoute isAllowed={currentUser?.role === ROLE_USER.JOB_SEEKER} />}>
+        <Route path="/applied-jobs" element={<JobApplied />} />
+      </Route>
       <Route path="/search" element={<Search />} />
       <Route path="*" element={<NotFound />} />
-      <Route element={<PrivateRoute isAllowed={currentUser?.role === ROLE_USER.ADMIN} />}>
-        <Route element={<AdminLayout />}>
+      <Route element={<AdminLayout />}>
+        <Route element={<PrivateRoute isAllowed={currentUser?.role === ROLE_USER.ADMIN} />}>
           <Route path="/admin/dash-board" element={<DashBoard />} />
           <Route path="/admin/users" element={<UserMange />} />
           <Route path="/admin/users/create" element={<CreateUser />} />
@@ -73,6 +101,16 @@ function App() {
           <Route path="/employer/contract/edit/:id" element={<EditContractEmp />} />`
           <Route path="/employer/candidates" element={<CandidateManage />} />
           <Route path="/employer/candidates/details/:id" element={<CandidateDetails />} />
+        </Route>
+      </Route>
+
+      <Route element={<PrivateRoute isAllowed={currentUser?.role === ROLE_USER.INTERVIEER} />}>
+        <Route element={<AdminLayout />}>
+          <Route path="/interviewer/list-candidates" element={<Interviewees />} />
+          <Route path="/interviewer/list-candidates/details/:id" element={<CandidateDetails />} />
+          <Route path="/interviewer/scheduals" element={<SchedualManage />} />
+          <Route path="/interviewer/reviews" element={<ReviewManage />} />
+          <Route path="/interviewer/reviews/details/:id" element={<ReviewDetail />} />
         </Route>
       </Route>
     </Routes>

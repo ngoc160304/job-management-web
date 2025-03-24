@@ -11,13 +11,7 @@ import CardActions from '@mui/material/CardActions';
 import TextField from '@mui/material/TextField';
 import Zoom from '@mui/material/Zoom';
 import { useForm } from 'react-hook-form';
-import {
-  FIELD_REQUIRED_MESSAGE,
-  EMAIL_RULE,
-  EMAIL_RULE_MESSAGE,
-  PASSWORD_RULE,
-  PASSWORD_RULE_MESSAGE
-} from '../../utils/validators';
+import { FIELD_REQUIRED_MESSAGE, EMAIL_RULE, EMAIL_RULE_MESSAGE } from '../../utils/validators';
 import FieldErrorAlert from '../../components/Form/FieldErrorAlert';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
@@ -100,11 +94,7 @@ function LoginForm() {
                 variant="outlined"
                 error={!!errors['password']}
                 {...register('password', {
-                  required: FIELD_REQUIRED_MESSAGE,
-                  pattern: {
-                    value: PASSWORD_RULE,
-                    message: PASSWORD_RULE_MESSAGE
-                  }
+                  required: FIELD_REQUIRED_MESSAGE
                 })}
               />
               <FieldErrorAlert errors={errors} fieldName={'password'} />

@@ -1,4 +1,5 @@
 export const API_ROOT = 'http://localhost:8017/api';
+export const API_ROOT_SOCKET = 'http://localhost:8017';
 export const SKILLS = [
   'html',
   'css',

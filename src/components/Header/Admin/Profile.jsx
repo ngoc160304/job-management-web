@@ -28,9 +28,16 @@ const Profile = () => {
     setAnchorEl(null);
   };
   const handleLogOut = () => {
-    dispatch(logOutUserAPI());
-    navigate('/');
-    toast.success('Logout success !');
+    toast
+      .promise(dispatch(logOutUserAPI()), {
+        pending: 'Loading loggout...'
+      })
+      .then((res) => {
+        if (!res.error) {
+          toast.success('logout successs !');
+          navigate('/login');
+        }
+      });
   };
   return (
     <div className={styles.admin_profile}>

@@ -105,7 +105,7 @@ const FormSearchJob = ({ onSearch }) => {
         </Select>
       </FormControl>
 
-      <FormControl variant="outlined" sx={{ minWidth: 138 }}>
+      <FormControl variant="outlined" sx={{ minWidth: 145 }}>
         <InputLabel id="select-work-location-label">Work Location</InputLabel>
         <Select
           labelId="select-work-location-label"

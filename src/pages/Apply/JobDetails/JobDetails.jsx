@@ -11,12 +11,33 @@ import { CheckCircle, LocationOn, MonetizationOn, Event, Business } from '@mui/i
 
 import { convertDateTime } from '../../../utils/formatters';
 import parse from 'html-react-parser';
-const JobDetails = ({ job }) => {
+import Contract from '../Contract/Contract';
+import Complain from '../Complain/Complain';
+const JobDetails = ({ job, contract }) => {
   return (
     <Box>
-      <Typography variant="h4" component="h1" gutterBottom>
-        {job.position}
-      </Typography>
+      <Box
+        sx={{
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center'
+        }}
+      >
+        <Typography variant="h4" component="h1" gutterBottom>
+          {job.position}
+        </Typography>
+        <Box
+          sx={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            gap: 1
+          }}
+        >
+          <Contract contract={contract} />
+          <Complain job={job} />
+        </Box>
+      </Box>
 
       {/* Thông tin cơ bản */}
       <Box sx={{ display: 'flex', gap: 2, mb: 2 }}>
