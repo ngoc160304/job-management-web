@@ -206,18 +206,18 @@ const Profile = () => {
                 />
                 <FieldErrorAlert errors={errors} fieldName={'education'} />
               </Box>
-              <Box
-                sx={{
-                  display: 'flex',
-                  justifyContent: 'flex-end'
-                }}
-              >
-                <Button variant="outlined" type="submit" size="large">
-                  Chỉnh sửa
-                </Button>
-              </Box>
             </>
           )}
+          <Box
+            sx={{
+              display: 'flex',
+              justifyContent: 'flex-end'
+            }}
+          >
+            <Button variant="outlined" type="submit" size="large">
+              Chỉnh sửa
+            </Button>
+          </Box>
         </Box>
       </Box>
       <Footer />
